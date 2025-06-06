@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading;
 
 namespace Test_Sorting
 {
     public class PerformanceTester
     {
+        private static List<SortAlgorithm> Algorithms;
         private static readonly int[] ArraySizes = { 50, 5000, 25000, 50000, 250000, 500000 };
         private const int RecursiveMaxSafeSize = 100000;
+
+        [STAThread]
+        public static void Main(string[] args)
+        {
+            // RunTests();
+        }
 
         private class SortAlgorithm
         {
@@ -25,8 +28,6 @@ namespace Test_Sorting
             public bool IsRecursive { get; set; } = false;
             public bool NeedsAuxiliaryArray { get; set; } = false;
         }
-
-        private static List<SortAlgorithm> Algorithms;
 
         static PerformanceTester()
         {
@@ -185,12 +186,12 @@ namespace Test_Sorting
                         {
                             if (ex is StackOverflowException)
                             {
-                                Console.WriteLine($"\n[ПРЕДУПРЕЖДЕНИЕ] StackOverflowException для {algo.Name} ({dataType}) при размере {size}");
+                                Console.WriteLine($"\nStackOverflow для {algo.Name} ({dataType}) при размере {size}");
                                 result = "INF (SOF)";
                             }
                             else
                             {
-                                Console.WriteLine($"\n[ОШИБКА] При выполнении {algo.Name} для {description}: {ex.Message}");
+                                Console.WriteLine($"\nПри выполнении {algo.Name} для {description}: {ex.Message}");
                                 result = "ERROR";
                             }
                         }
@@ -222,12 +223,12 @@ namespace Test_Sorting
                     }
                     catch (StackOverflowException)
                     {
-                        Console.WriteLine($"\n[ПРЕДУПРЕЖДЕНИЕ] StackOverflowException для {typeof(T).Name} в {sortAlgorithm.Method.Name} при размере {copyArray.Length}. Возвращаем INF.");
+                        Console.WriteLine($"\nStackOverflow для {typeof(T).Name} в {sortAlgorithm.Method.Name} при размере {copyArray.Length}. Возвращаем INF.");
                         elapsedMilliseconds = -2.0;
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"\n[ОШИБКА] Ошибка сортировки {sortAlgorithm.Method.Name} для {typeof(T).Name}: {ex.Message}");
+                        Console.WriteLine($"\nОшибка сортировки {sortAlgorithm.Method.Name} для {typeof(T).Name}: {ex.Message}");
                         elapsedMilliseconds = -3.0;
                     }
                 }, 32 * 1024 * 1024);
@@ -246,28 +247,24 @@ namespace Test_Sorting
                 }
                 catch (StackOverflowException)
                 {
-                    Console.WriteLine($"\n[ПРЕДУПРЕЖДЕНИЕ] StackOverflowException для {typeof(T).Name} в {sortAlgorithm.Method.Name} при размере {copyArray.Length}. Возвращаем INF.");
+                    Console.WriteLine($"\nStackOverflow для {typeof(T).Name} в {sortAlgorithm.Method.Name} при размере {copyArray.Length}. Возвращаем INF.");
                     elapsedMilliseconds = -2.0;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"\n[ОШИБКА] Ошибка сортировки {sortAlgorithm.Method.Name} для {typeof(T).Name}: {ex.Message}");
+                    Console.WriteLine($"\nОшибка сортировки {sortAlgorithm.Method.Name} для {typeof(T).Name}: {ex.Message}");
                     elapsedMilliseconds = -3.0;
                 }
             }
 
             if (elapsedMilliseconds >= 0 && !SortingAlgorithms.IsSorted(copyArray))
             {
-                Console.WriteLine($"\n[ПРЕДУПРЕЖДЕНИЕ] Алгоритм {sortAlgorithm.Method.Name} не отсортировал массив корректно для размера {copyArray.Length}");
+                Console.WriteLine($"\nАлгоритм {sortAlgorithm.Method.Name} не отсортировал массив корректно для размера {copyArray.Length}");
                 return -4.0;
             }
 
             return elapsedMilliseconds;
         }
 
-        public static void Main(string[] args)
-        {
-            RunTests();
-        }
     }
 }
