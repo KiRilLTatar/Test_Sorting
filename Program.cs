@@ -10,7 +10,6 @@ namespace Test_Sorting
         private static readonly int[] ArraySizes = { 50, 5000, 25000, 50000, 250000, 500000 };
         private const int RecursiveMaxSafeSize = 100000;
 
-        [STAThread]
         public static void Main(string[] args)
         {
             // RunTests();
@@ -42,7 +41,7 @@ namespace Test_Sorting
                 new SortAlgorithm { Name = "MergeSort (Rec)", IsRecursive = true, NeedsAuxiliaryArray = true, IntSortAction = SortingAlgorithms.MergeSortRecursive, DoubleSortAction = SortingAlgorithms.MergeSortRecursive, StringSortAction = SortingAlgorithms.MergeSortRecursive, CustomDataSortAction = SortingAlgorithms.MergeSortRecursive, DateTimeSortAction = SortingAlgorithms.MergeSortRecursive },
                 new SortAlgorithm { Name = "MergeSort (Iter)", NeedsAuxiliaryArray = true, IntSortAction = SortingAlgorithms.MergeSortIterative, DoubleSortAction = SortingAlgorithms.MergeSortIterative, StringSortAction = SortingAlgorithms.MergeSortIterative, CustomDataSortAction = SortingAlgorithms.MergeSortIterative, DateTimeSortAction = SortingAlgorithms.MergeSortIterative },
                 new SortAlgorithm { Name = "HeapSort", IntSortAction = SortingAlgorithms.HeapSort, DoubleSortAction = SortingAlgorithms.HeapSort, StringSortAction = SortingAlgorithms.HeapSort, CustomDataSortAction = SortingAlgorithms.HeapSort, DateTimeSortAction = SortingAlgorithms.HeapSort },
-                new SortAlgorithm { Name = "RadixSort", IsIntOnly = true, NeedsAuxiliaryArray = true, IntSortAction = SortingAlgorithms.RadixSort }, // Только для int
+                new SortAlgorithm { Name = "RadixSort", IsIntOnly = true, NeedsAuxiliaryArray = true, IntSortAction = SortingAlgorithms.RadixSort },
                 new SortAlgorithm { Name = "BuiltInSort", IntSortAction = SortingAlgorithms.BuiltInSorting, DoubleSortAction = SortingAlgorithms.BuiltInSorting, StringSortAction = SortingAlgorithms.BuiltInSorting, CustomDataSortAction = SortingAlgorithms.BuiltInSorting, DateTimeSortAction = SortingAlgorithms.BuiltInSorting }
             };
         }
